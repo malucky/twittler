@@ -26,21 +26,29 @@
 	  while (index >= 0) {
 	    var tweet = streams.home[index];
 	    var $tweet = $('<div class=tweet></div>');
-	
+	    var clicked = false;
 	    $tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
-	    $tweet.click(function(){   
-	      var tweetContent = $(this).text();
-   	      var userNameIndex = tweetContent.indexOf('@')+1;
-	      var thisUser = tweetContent.slice(userNameIndex, tweetContent.indexOf(':',userNameIndex));
-	      i = streams.users[thisUser].length-1;
-	      while (i >= 0) {
-	        var thisTweet = streams.users[thisUser][i];
-	        var $thisTweet = $('<div class=thisUser></div>');
-	        $thisTweet.text(">>>>>" + thisTweet.created_at.toTimeString() + ' @' + thisUser + ': ' + thisTweet.message);
-	        $(this).append($thisTweet);
-		i--;
+	    $tweet.click(function(){
+	      if (clicked){
+		$(this).children().remove();
+	        clicked = false;
+              } 
+	      else {//show user tweets
+                var tweetContent = $(this).text();
+   	        var userNameIndex = tweetContent.indexOf('@')+1;
+	        var thisUser = tweetContent.slice(userNameIndex, tweetContent.indexOf(':',userNameIndex));
+	        i = streams.users[thisUser].length-1;
+	        while (i >= 0) {
+	          var thisTweet = streams.users[thisUser][i];
+	          var $thisTweet = $('<div class=thisUser></div>');
+	          $thisTweet.text(">>>>>" + thisTweet.created_at.toTimeString() + ' @' + thisUser + ': ' + thisTweet.message);
+	          $(this).append($thisTweet);
+		  i--;
+	        }
+	        clicked = true;
 	      }
-	    });
+            });
+
 	    $tweet.appendTo($body);
     	    index -= 1;
 	  }
