@@ -5,14 +5,19 @@
     <script src="data_generator.js"></script>
   </head>
   <body>
+    <img src="http://fc09.deviantart.net/fs70/i/2012/125/4/c/vectorial_twitter_bird_by_cherryfactory-d4yod5i.png"'+
+	  'width="50px"; height="50px"; style='float="left";';></img> 
+	  <h1 style='float:"right"; position = "absolute";'>Twittler</h1>
     <script>
 
       $(document).ready(function(){
         var $body = $('body');
 	var numOfTweets = streams.home.length;
-	$logo = $('<img src="http://fc09.deviantart.net/fs70/i/2012/125/4/c/vectorial_twitter_bird_by_cherryfactory-d4yod5i.png"'+
-	  'width="50px"; height="50px";>Twittler</img>');
-        $body.html($logo);
+	//	$logo = $('<img src="http://fc09.deviantart.net/fs70/i/2012/125/4/c/vectorial_twitter_bird_by_cherryfactory-d4yod5i.png"'+
+	//  'width="50px"; height="50px";>Twittler</img>');
+       // $body.html($logo);
+	var $refresh = $('<button type="button">Refresh</button>');
+	$($refresh).appendTo($body);
 	
 	
 	
@@ -21,7 +26,21 @@
 	  while (index >= 0) {
 	    var tweet = streams.home[index];
 	    var $tweet = $('<div class=tweet></div>');
+	
 	    $tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
+	    $tweet.click(function(){   
+	      var tweetContent = $(this).text();
+   	      var userNameIndex = tweetContent.indexOf('@')+1;
+	      var thisUser = tweetContent.slice(userNameIndex, tweetContent.indexOf(':',userNameIndex));
+	      i = streams.users[thisUser].length-1;
+	      while (i >= 0) {
+	        var thisTweet = streams.users[thisUser][i];
+	        var $thisTweet = $('<div class=thisUser></div>');
+	        $thisTweet.text(">>>>>" + thisTweet.created_at.toTimeString() + ' @' + thisUser + ': ' + thisTweet.message);
+	        $(this).append($thisTweet);
+		i--;
+	      }
+	    });
 	    $tweet.appendTo($body);
     	    index -= 1;
 	  }
@@ -38,9 +57,9 @@
 	    $tweet = $tweet.next();
 	  }
 	}
-
+	$refresh.click(refreshTweets);
 	window.setTimeout(initTweets,0);
-	window.setInterval(refreshTweets, 3000);
+	window.setInterval(refreshTweets, 20000);
       });
 
     </script>
