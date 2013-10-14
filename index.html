@@ -10,7 +10,10 @@
       $(document).ready(function(){
         var $body = $('body');
 	var numOfTweets = streams.home.length;
-        $body.html('');
+	$logo = $('<img src="http://fc09.deviantart.net/fs70/i/2012/125/4/c/vectorial_twitter_bird_by_cherryfactory-d4yod5i.png"'+
+	  'width="50px"; height="50px";>Twittler</img>');
+        $body.html($logo);
+	
 	
 	
 	var initTweets = function(){
@@ -18,7 +21,7 @@
 	  while (index >= 0) {
 	    var tweet = streams.home[index];
 	    var $tweet = $('<div class=tweet></div>');
-	    $tweet.text('@' + tweet.user + ': ' + tweet.message);
+	    $tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
 	    $tweet.appendTo($body);
     	    index -= 1;
 	  }
@@ -26,7 +29,7 @@
 
 	var refreshTweets = function(){
 	  var appendTweet = function($tweet, tweet) {
-	    $tweet.text('@' + tweet.user + ': ' + tweet.message);
+	    $tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
 	  }
 	  var $tweet = $('.tweet :first');
 	  
