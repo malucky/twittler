@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'FFF_Tusj';
+    src: url('fonts/FFF-Tusj/FFF_Tusj.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+	height: 100px;
+	width: 100%;
+	position: relative;
+	margin: 20px 30px;
+}
+
+.mainHeader img {
+	float: left;
+	height: 75px;
+	width: 75px;
+	margin: 30px 10px 0 50px;
+
+}
+
+.mainHeader h1 {
+	float: left;
+	font: 48px italic "FFF_Tusj", Georgia;
+	margin: 10px 0 0 10px;
+}
+
+/* helpers */
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
