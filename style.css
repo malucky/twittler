@@ -1,8 +1,17 @@
+/* font-faces */
 @font-face {
     font-family: 'FFF_Tusj';
     src: url('fonts/FFF-Tusj/FFF_Tusj.ttf');
     font-weight: normal;
     font-style: normal;
+}
+
+/* reset */
+html { 
+	margin: 0 0 0 0;
+}
+body {
+	margin: 0 0 0 0;
 }
 
 header {
@@ -12,6 +21,8 @@ header {
 	margin: 20px 30px;
 }
 
+
+/* mainHeader */
 .mainHeader img {
 	float: left;
 	height: 75px;
@@ -24,9 +35,37 @@ header {
 	float: left;
 	font: 48px italic "FFF_Tusj", Georgia;
 	margin: 10px 0 0 10px;
+	-webkit-transform: rotate(5deg);
+	-moz-transform: rotate(5deg);
+	transform: rotate(5deg);
 }
 
-/* helpers */
+/* mainBody */
+[type="button"] {
+	color: blue;
+	background-color: #fdd;
+	opacity: 0.7;
+	font: 24px/32px bold Georgia;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius:8px;
+	-webkit-text-shadow: 1px 1px 1px #000;
+	-moz-text-shadow: 1px 1px 1px #000;
+	text-shadow: 1px 1px 1px #000;
+}
+
+/* mainFooter */
+.mainFooter {
+	position: fixed;
+	width: 100%;
+	height: 10%;
+	bottom: 10px;
+	background-color: lightblue;
+	margin: 0 0 0 0;
+
+}
+
+/* clearfix */
 .clearfix:after {
 	content: ".";
 	display: block;

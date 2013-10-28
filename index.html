@@ -8,6 +8,7 @@
   	<link rel="shortcut icon" href = "http://fc09.deviantart.net/fs70/i/2012/125/4/c/vectorial_twitter_bird_by_cherryfactory-d4yod5i.png" type="image/png"/>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="main.js"></script>
   </head>
 
   <body>
@@ -16,67 +17,17 @@
 	  <h1>Twittler</h1>
 	</header>
 
-    <script>
-      $(document).ready(function(){
-        var $body = $('body');
-	var numOfTweets = streams.home.length;
-	//	$logo = $('<img src="http://fc09.deviantart.net/fs70/i/2012/125/4/c/vectorial_twitter_bird_by_cherryfactory-d4yod5i.png"'+
-	//  'width="50px"; height="50px";>Twittler</img>');
-       // $body.html($logo);
-	var $refresh = $('<button type="button">Refresh</button>');
-	$($refresh).appendTo($body);
-	
-	
-	
-	var initTweets = function(){
-	  var index = numOfTweets-1;
-	  while (index >= 0) {
-	    var tweet = streams.home[index];
-	    var $tweet = $('<div class=tweet></div>');
-	    var clicked = false;
-	    $tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
-	    $tweet.click(function(){
-	      if (clicked){
-		$(this).children().remove();
-	        clicked = false;
-              } 
-	      else {//show user tweets
-                var tweetContent = $(this).text();
-   	        var userNameIndex = tweetContent.indexOf('@')+1;
-	        var thisUser = tweetContent.slice(userNameIndex, tweetContent.indexOf(':',userNameIndex));
-	        i = streams.users[thisUser].length-1;
-	        while (i >= 0) {
-	          var thisTweet = streams.users[thisUser][i];
-	          var $thisTweet = $('<div class=thisUser></div>');
-	          $thisTweet.text(">>>>>" + thisTweet.created_at.toTimeString() + ' @' + thisUser + ': ' + thisTweet.message);
-	          $(this).append($thisTweet);
-		  i--;
-	        }
-	        clicked = true;
-	      }
-            });
+	<section class = 'mainBody'>
+		<article class = 'refreshButton'>
+			<button type="button">Refresh</button>
+		</article>
 
-	    $tweet.appendTo($body);
-    	    index -= 1;
-	  }
-	}
+		<article class = 'tweets'>
+		</article>
+	</section>
 
-	var refreshTweets = function(){
-	  var appendTweet = function($tweet, tweet) {
-	    $tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
-	  }
-	  var $tweet = $('.tweet :first');
-	  
-	  for (var index = streams.home.length-1; index >= streams.home.length-1 - numOfTweets; index--){
-	    appendTweet($tweet, streams.home[index]);
-	    $tweet = $tweet.next();
-	  }
-	}
-	$refresh.click(refreshTweets);
-	window.setTimeout(initTweets,0);
-	window.setInterval(refreshTweets, 20000);
-      });
-
-    </script>
+	<section class = 'mainFooter'>
+		<header><h1>footer</h1></header>
+	</section>	
   </body>
 </html>
