@@ -54,6 +54,11 @@ header {
 	text-shadow: 1px 1px 1px #000;
 }
 
+.tweets .tweet-avatar {
+	width: 30px;
+	height: 30px;
+}
+
 /* mainFooter */
 .mainFooter {
 	position: fixed;
