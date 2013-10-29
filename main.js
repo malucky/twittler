@@ -17,7 +17,7 @@ $(document).ready(function(){
 		var $tweetNode = $('<div class="tweet-main clearfix"></div>');
 		// user name
 		var $tweetUser = $('<p class="tweet-user"></p>');
-		$tweetUser.text(tweet.user);
+		$tweetUser.text('@' + tweet.user);
 		// timestamp
 		var $tweetTime = $('<p class="tweet-time"></p>');
 		$tweetTime.text(getFriendlyTime(tweet.created_at));
@@ -66,13 +66,12 @@ $(document).ready(function(){
 		var hour = 60 * minute;
 		var day = 24 * hour;
 		var howLongAgo = rightNow - time.getTime();
-		console.log(howLongAgo);
 		if (howLongAgo < minute) {
 			return 'few seconds ago';
 		} else if (howLongAgo < hour) {
-			return Math.floor(howLongAgo / minute).toString() + 'minutes ago';
+			return Math.floor(howLongAgo / minute).toString() + ' minutes ago';
 		} else if (howLongAgo < day) {
-			return Math.floor(howlongAgo / hour).toString() + 'hours ago';
+			return Math.floor(howlongAgo / hour).toString() + ' hours ago';
 		} else {
 			return 'more than a day ago';
 		}
@@ -87,13 +86,14 @@ $(document).ready(function(){
 				$('<button class="moreButton" type="button">More!</button>').prependTo('.tweets');
 			}
 			var newTweetsNum = Math.min(numOfTweets-prevTweetNum, howManyTweets);
-			var i = numOfTweets;
+			var i = numOfTweets-newTweetsNum - 1;
 			var $tweetNode;
-			while (--i >= numOfTweets-newTweetsNum) {
+			while (i < numOfTweets) {
 				$tweetNode = tweetHTML(getATweet('home', i))
 				$tweetNode.prependTo('.tweets');
 				$tweetNode.css('display','none');
 				$tweetNode.slideDown(800);
+				i++;
 			}
 			prevTweetNum = numOfTweets;
 		});
@@ -107,7 +107,7 @@ $(document).ready(function(){
 	  	}
 	  	if (myTweetMessage.length !== 0){
 	  	  writeTweet(myTweetMessage);
-	  	  $('.myTweet').attr('value', "");
+	  	  $('.myTweet').val("");
 	  	}
 	  	/*myTweet.user = myName;
 	  	myTweet.message = myTweetMessage;
@@ -121,7 +121,10 @@ $(document).ready(function(){
 
 	/* add user information */
 	window.setTimeout(function(){
-		visitor = window.prompt("What's your name?");
+		var myName = window.prompt("What's your name?");
+		if (myName) {
+			visitor = myName;
+		}
 		streams.users[visitor] = [];
 	},200);
 

@@ -29,16 +29,36 @@ header {
 	height: 75px;
 	width: 75px;
 	margin: 30px 10px 0 50px;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	transition: all 0.5s;
+}
 
+.mainHeader img:hover {
+	-webkit-transform: scale(1.2);
+	-moz-transform: scale(1.2);
+	transform: scale(1.2);
 }
 
 .mainHeader h1 {
 	float: left;
 	font: 48px italic "FFF_Tusj", Georgia;
 	margin: 10px 0 0 10px;
+	color: pink;
 	-webkit-transform: rotate(5deg);
 	-moz-transform: rotate(5deg);
 	transform: rotate(5deg);
+	-webkit-text-shadow: 2px 2px 3px #000;
+	-moz-text-shadow: 2px 2px 3px #000;
+	text-shadow: 2px 2px 3px #000;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	transition: all 0.5s 'linear';
+}
+.mainHeader h1:hover {
+	-webkit-transform: rotate(355deg);
+	-moz-transform: rotate(355deg);
+	transform: rotate(355deg);
 }
 
 /* mainBody */
@@ -50,9 +70,19 @@ header {
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius:8px;
-	-webkit-text-shadow: 1px 1px 1px #000;
-	-moz-text-shadow: 1px 1px 1px #000;
-	text-shadow: 1px 1px 1px #000;
+	-webkit-text-shadow: 1px 1px 1px blue;
+	-moz-text-shadow: 1px 1px 1px blue;
+	text-shadow: 1px 1px 1px blue;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	transition: all .5s;
+}
+[type="button"]:hover {
+	color: red;
+	background-color: pink;
+	-webkit-transform: scale(1.2);
+	-moz-transform: scale(1.2);
+	transform: scale(1.2);
 }
 .tweets {
 	margin: 20px;
