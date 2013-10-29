@@ -129,6 +129,8 @@ header {
 }
 .tweets .userAndTime {
 	width: 80%;
+	float:left;
+	display: inline-block;
 }
 .tweets .tweet-user {
 	float: left;
@@ -141,7 +143,9 @@ header {
 }
 .tweets .tweet-message {
 	float: left;
+	display: inline-block;
 	font: 20px serif;
+	width: 80%;
 	margin: 10px 30px;
 }
 .tweets .tweet-main {
