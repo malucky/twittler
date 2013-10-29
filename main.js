@@ -14,7 +14,7 @@ $(document).ready(function(){
 	/* construct tweet structure */
 	// takes an object, tweet and returns an html node of the tweet.
 	var tweetHTML = function(tweet) {
-		var $tweetNode = $('<div class="tweet-main clearfix"></div>');
+		var $tweetNode = $('<div class="tweet-main clearfix" data-click="false"></div>');
 		// user name
 		var $tweetUser = $('<p class="tweet-user"></p>');
 		$tweetUser.text('@' + tweet.user);
@@ -96,6 +96,7 @@ $(document).ready(function(){
 				i++;
 			}
 			prevTweetNum = numOfTweets;
+			userSpecificTweet();
 		});
 	};
 	var sendTweet = function(){
@@ -109,13 +110,43 @@ $(document).ready(function(){
 	  	  writeTweet(myTweetMessage);
 	  	  $('.myTweet').val("");
 	  	}
-	  	/*myTweet.user = myName;
-	  	myTweet.message = myTweetMessage;
-	  	myTweet.created_at = Date.now();*/
 	  });
 	};
-
+	var singleTweetHTML = function(tweet){
+		var $tweetNode = $('<div class="tweet-single"></div>'); //parent node
+		var $timeNode = $('<p class="tweet-single-time"></p>');
+		var $messageNode = $('<p class="tweet-single-message"></p>');
+		$timeNode.text(tweet.created_at.toLocaleString());
+		$messageNode.text(tweet.message);
+		$tweetNode.append($timeNode);
+		$tweetNode.append($messageNode);
+		return $tweetNode;
+	};
 	/* get user-specific tweets */
+	var userSpecificTweet = function(){
+	$thisTweet = $('.tweet-main');
+	$thisTweet.on('click', function(){
+		var $parentNode = $(this);
+		if ($parentNode.attr('data-click') === 'false'){
+		var user = $parentNode.find('.tweet-user').text().slice(1);
+		var numOfTweets = streams.users[user].length;
+		var newTweetsNum = Math.min(numOfTweets, howManyTweets);
+		var i = numOfTweets;
+		while (--i >= numOfTweets - newTweetsNum) {
+			var $tweetNode = singleTweetHTML(getATweet(user, i));
+			$tweetNode.appendTo($parentNode);
+			$tweetNode.css('display','none');
+			$tweetNode.slideDown(400);
+			$parentNode.attr('data-click', 'true');
+		}
+		} else {
+			var $singleTweets = $parentNode.find('.tweet-single');
+			$singleTweets.slideToggle()
+			window.setTimeout(function(){$singleTweets.remove()}, 400);
+			$parentNode.attr('data-click', 'false');
+		}		
+	});
+};
 
 	/* display user-specific tweets */
 
@@ -132,58 +163,5 @@ $(document).ready(function(){
 	displayTweets(howManyTweets, 'home', '.tweets');
 	refreshTweets();
 	sendTweet();
+	userSpecificTweet();
 });
-/*
-    var $body = $('body');
-		var numOfTweets = streams.home.length;
-		var $refresh = $('.refreshButton');
-
-		var initTweets = function(){
-	      var index = numOfTweets-1;
-	  	  while (index >= 0) {
-	      	var tweet = streams.home[index];
-	    	var $tweet = $('<div class=tweet></div>');
-	    	var clicked = false;
-	    	$tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
-	    	$tweet.click(function(){
-	      	if (clicked){
-			  $(this).children().remove();
-	          clicked = false;
-            } 
-	        else {//show user tweets
-              var tweetContent = $(this).text();
-   	          var userNameIndex = tweetContent.indexOf('@')+1;
-	          var thisUser = tweetContent.slice(userNameIndex, tweetContent.indexOf(':',userNameIndex));
-	          i = streams.users[thisUser].length-1;
-	          while (i >= 0) {
-	            var thisTweet = streams.users[thisUser][i];
-	            var $thisTweet = $('<div class=thisUser></div>');
-	            $thisTweet.text(">>>>>" + thisTweet.created_at.toTimeString() + ' @' + thisUser + ': ' + thisTweet.message);
-	            $(this).append($thisTweet);
-		        i--;
-  	          }
-	          clicked = true;
-	        }
-        });
-
-	    $tweet.appendTo($body);
-    	    index -= 1;
-	  }
-	}
-
-	var refreshTweets = function(){
-	  var appendTweet = function($tweet, tweet) {
-	    $tweet.text(tweet.created_at.toTimeString() + ' @' + tweet.user + ': ' + tweet.message);
-	  }
-	  var $tweet = $('.tweet :first');
-	  
-	  for (var index = streams.home.length-1; index >= streams.home.length-1 - numOfTweets; index--){
-	    appendTweet($tweet, streams.home[index]);
-	    $tweet = $tweet.next();
-	  }
-	}
-	$refresh.click(refreshTweets);
-	window.setTimeout(initTweets,0);
-	window.setInterval(refreshTweets, 20000);
-      });
-*/
