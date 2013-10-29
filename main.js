@@ -1,5 +1,7 @@
+window.visitor = 'Mystery Man';
+
 $(document).ready(function(){
-	var latestTweetIndex;
+	var prevTweetNum;
 	var howManyTweets = 10;
 	/* get a tweets */
 	// takes a string, who, and an int, index, and returns an object, thisTweet.
@@ -42,13 +44,16 @@ $(document).ready(function(){
 		var totalTweetsNum;
 		if (user === 'home'){
 		  totalTweetsNum = streams.home.length;
-		  latestTweetIndex = totalTweetsNum-1;
+		  prevTweetNum = totalTweetsNum;
 		} else {
 		  totalTweetsNum = streams.users[user].length;
 		}
 		var i = totalTweetsNum;
+		var $tweetNode;
 		while (--i >= totalTweetsNum - numOfTweets) {	
-			tweetHTML(getATweet(user, i)).appendTo(appendWhere);
+			$tweetNode = tweetHTML(getATweet(user, i));
+			$tweetNode.appendTo(appendWhere);
+			$tweetNode.css('display', 'block');
 		}
 	};
 	/* get time of tweet in friendly format */
@@ -75,17 +80,36 @@ $(document).ready(function(){
 	var refreshTweets = function(){
 		$refreshButton = $('.refreshButton');
 		$refreshButton.on('click', 'button', function(){
-			console.log('refresh tweets');
-			var tweetIndex = streams.home.length - 1;
-			if (tweetIndex - latestTweetIndex > howManyTweets) {
-				$('<button class="more">More!</button>').prependTo('.tweets');
+			var numOfTweets = streams.home.length;
+			if (numOfTweets - prevTweetNum > howManyTweets) {
+				$('<button class="moreButton" type="button">More!</button>').prependTo('.tweets');
 			}
-				while (tweetIndex > latestTweetIndex) {
-					tweetHTML(getATweet('home', tweetIndex)).prependTo('.tweets');
-					tweetIndex--;
-				}
-			latestTweetIndex = tweetIndex;
+			var newTweetsNum = Math.min(numOfTweets-prevTweetNum, howManyTweets);
+			var i = numOfTweets;
+			var $tweetNode;
+			while (--i >= numOfTweets-newTweetsNum) {
+				$tweetNode = tweetHTML(getATweet('home', i))
+				$tweetNode.prependTo('.tweets');
+				$tweetNode.slideDown(800);
+			}
+			prevTweetNum = numOfTweets;
 		});
+	};
+	var sendTweet = function(){
+	  $('.tweetForm').on('click', 'button', function(){
+			var myTweetMessage = $('.myTweet').val();
+			console.log(myTweetMessage);
+	  	if (streams.users[visitor] === undefined) {
+	  		streams.users[visitor] = [];
+	  		users[visitor] = [];
+	  	}
+	  	if (myTweetMessage.length !== 0){
+	  	  writeTweet(myTweetMessage);
+	  	}
+	  	/*myTweet.user = myName;
+	  	myTweet.message = myTweetMessage;
+	  	myTweet.created_at = Date.now();*/
+	  });
 	};
 
 	/* get user-specific tweets */
@@ -93,14 +117,15 @@ $(document).ready(function(){
 	/* display user-specific tweets */
 
 	/* add user information */
-	/*window.setTimeout(function(){
-		var myName = window.prompt("What's your name?");
-		streams.users[myName] = [];
-	},1000);*/
+	window.setTimeout(function(){
+		visitor = window.prompt("What's your name?");
+		streams.users[visitor] = [];
+	},200);
 
 	/* enter tweets */
 	displayTweets(howManyTweets, 'home', '.tweets');
 	refreshTweets();
+	sendTweet();
 });
 /*
     var $body = $('body');
