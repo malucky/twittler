@@ -1,10 +1,13 @@
 $(document).ready(function(){
-
+	var latestTweetIndex;
+	var howManyTweets = 10;
 	/* get a tweets */
 	// takes a string, who, and an int, index, and returns an object, thisTweet.
-
-	var getATweet = function(who, index) {
-		return streams[who][index];
+	var getATweet = function(user, index) {
+		if (user === 'home') {
+			return streams.home[index];
+		}
+		return streams.users[user][index];
 	};
 
 	/* construct tweet structure */
@@ -31,7 +34,23 @@ $(document).ready(function(){
 		$tweetNode.append($tweetContent);
 		return $tweetNode;
 	};
-
+	/* display the tweets */
+	// takes an int, numOfTweets, a string, user, and a string indicating
+	// the node to append to, appendWhere. Append the latest numOfTweets from user onto
+	// appendWhere
+	var displayTweets = function(numOfTweets, user, appendWhere) {
+		var totalTweetsNum;
+		if (user === 'home'){
+		  totalTweetsNum = streams.home.length;
+		  latestTweetIndex = totalTweetsNum-1;
+		} else {
+		  totalTweetsNum = streams.users[user].length;
+		}
+		var i = totalTweetsNum;
+		while (--i >= totalTweetsNum - numOfTweets) {	
+			tweetHTML(getATweet(user, i)).appendTo(appendWhere);
+		}
+	};
 	/* get time of tweet in friendly format */
 	// takes a Date and returns a string indicating the time in user-friendly format
 	var getFriendlyTime = function(time) {
@@ -53,6 +72,21 @@ $(document).ready(function(){
 	};
 
 	/* refresh tweets */
+	var refreshTweets = function(){
+		$refreshButton = $('.refreshButton');
+		$refreshButton.on('click', 'button', function(){
+			console.log('refresh tweets');
+			var tweetIndex = streams.home.length - 1;
+			if (tweetIndex - latestTweetIndex > howManyTweets) {
+				$('<button class="more">More!</button>').prependTo('.tweets');
+			}
+				while (tweetIndex > latestTweetIndex) {
+					tweetHTML(getATweet('home', tweetIndex)).prependTo('.tweets');
+					tweetIndex--;
+				}
+			latestTweetIndex = tweetIndex;
+		});
+	};
 
 	/* get user-specific tweets */
 
@@ -65,8 +99,8 @@ $(document).ready(function(){
 	},1000);*/
 
 	/* enter tweets */
-  console.log(tweetHTML(getATweet('home',1)));
-	tweetHTML(getATweet('home',1)).appendTo($('.tweets'));
+	displayTweets(howManyTweets, 'home', '.tweets');
+	refreshTweets();
 });
 /*
     var $body = $('body');
