@@ -1,6 +1,5 @@
-window.visitor = 'Mystery Man';
-
 $(document).ready(function(){
+	window.visitor = 'Mystery Man';
 	var prevTweetNum;
 	var howManyTweets = 10;
 	/* get a tweets */
@@ -15,7 +14,7 @@ $(document).ready(function(){
 	/* construct tweet structure */
 	// takes an object, tweet and returns an html node of the tweet.
 	var tweetHTML = function(tweet) {
-		var $tweetNode = $('<div class="tweet-main"></div>');
+		var $tweetNode = $('<div class="tweet-main clearfix"></div>');
 		// user name
 		var $tweetUser = $('<p class="tweet-user"></p>');
 		$tweetUser.text(tweet.user);
@@ -25,14 +24,16 @@ $(document).ready(function(){
 		// user avatar
 		var $tweetAvatar = $('<img class="tweet-avatar"/>');
 		$tweetAvatar.attr('src', 'iem_1.png');											/*****need to implement**/
-		// tweet content
-		var $tweetContent = $('<p class="tweet-content"></p>');
+		// tweet message
+		var $tweetContent = $('<p class="tweet-message"></p>');
 		$tweetContent.text(tweet.message);
 
 		//add children to parent node
+		$userAndTime = $('<div class="userAndTime clearfix"></div>');
+		$userAndTime.append($tweetUser);
+		$userAndTime.append($tweetTime);
 		$tweetNode.append($tweetAvatar);
-		$tweetNode.append($tweetUser);
-		$tweetNode.append($tweetTime);
+		$tweetNode.append($userAndTime);
 		$tweetNode.append($tweetContent);
 		return $tweetNode;
 	};
@@ -65,6 +66,7 @@ $(document).ready(function(){
 		var hour = 60 * minute;
 		var day = 24 * hour;
 		var howLongAgo = rightNow - time.getTime();
+		console.log(howLongAgo);
 		if (howLongAgo < minute) {
 			return 'few seconds ago';
 		} else if (howLongAgo < hour) {
@@ -90,6 +92,7 @@ $(document).ready(function(){
 			while (--i >= numOfTweets-newTweetsNum) {
 				$tweetNode = tweetHTML(getATweet('home', i))
 				$tweetNode.prependTo('.tweets');
+				$tweetNode.css('display','none');
 				$tweetNode.slideDown(800);
 			}
 			prevTweetNum = numOfTweets;
@@ -98,13 +101,13 @@ $(document).ready(function(){
 	var sendTweet = function(){
 	  $('.tweetForm').on('click', 'button', function(){
 			var myTweetMessage = $('.myTweet').val();
-			console.log(myTweetMessage);
 	  	if (streams.users[visitor] === undefined) {
 	  		streams.users[visitor] = [];
 	  		users[visitor] = [];
 	  	}
 	  	if (myTweetMessage.length !== 0){
 	  	  writeTweet(myTweetMessage);
+	  	  $('.myTweet').attr('value', "");
 	  	}
 	  	/*myTweet.user = myName;
 	  	myTweet.message = myTweetMessage;

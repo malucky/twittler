@@ -9,6 +9,7 @@
 /* reset */
 html { 
 	margin: 0 0 0 0;
+	font: 24/30px Georgia;
 }
 body {
 	margin: 0 0 0 0;
@@ -53,15 +54,44 @@ header {
 	-moz-text-shadow: 1px 1px 1px #000;
 	text-shadow: 1px 1px 1px #000;
 }
-.tweet-main {
+.tweets {
+	margin: 20px;
+}
+.tweets .tweet-avatar {
+	width: 20%px;
+	height: 60px;
+	float: left;
+	margin: 10px;
+}
+.tweets .userAndTime {
+	width: 80%;
+}
+.tweets .tweet-user {
+	float: left;
+	font: 26px bold;
+	margin: 5px 10px 5px 10px;
+}
+.tweets .tweet-time {
+	margin: 5px 20px;
+	float: right;
+}
+.tweets .tweet-message {
+	float: left;
+	font: 20px serif;
+	margin: 10px 30px;
+}
+.tweets .tweet-main {
+	border: 2px solid;
+	-webkit-border-radius: 16px;
+	-moz-border-radius: 16px;
+	background-color: #be8;
+	opacity: .7;
+	border-radius: 16px;
+	margin: 10px 10px;
+	height: auto;
+	width: 60%;
 	display: none;
 }
-
-.tweets .tweet-avatar {
-	width: 30px;
-	height: 30px;
-}
-
 /* mainFooter */
 .mainFooter {
 	position: relative;
