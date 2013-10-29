@@ -22,8 +22,37 @@ header {
 	margin: 20px 30px;
 }
 
+/* general */
+[type="button"] {
+	color: blue;
+	background-color: #fdd;
+	opacity: 0.7;
+	font: 24px/32px bold Georgia;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius:8px;
+	-webkit-text-shadow: 1px 1px 1px blue;
+	-moz-text-shadow: 1px 1px 1px blue;
+	text-shadow: 1px 1px 1px blue;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	transition: all .5s;
+	margin: 30px 120px;
+}
+[type="button"]:hover {
+	color: red;
+	background-color: pink;
+	-webkit-transform: scale(1.2);
+	-moz-transform: scale(1.2);
+	transform: scale(1.2);
+}
 
 /* mainHeader */
+#mainHeader {
+	display:block;
+	margin: 30px auto 50px auto;
+	width: 400px;
+}
 .mainHeader img {
 	float: left;
 	height: 75px;
@@ -62,30 +91,35 @@ header {
 }
 
 /* mainBody */
-[type="button"] {
-	color: blue;
-	background-color: #fdd;
-	opacity: 0.7;
-	font: 24px/32px bold Georgia;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius:8px;
-	-webkit-text-shadow: 1px 1px 1px blue;
-	-moz-text-shadow: 1px 1px 1px blue;
-	text-shadow: 1px 1px 1px blue;
-	-webkit-transition: all .5s;
-	-moz-transition: all .5s;
-	transition: all .5s;
+.mainBody {
+	margin: auto 20px;
 }
-[type="button"]:hover {
-	color: red;
-	background-color: pink;
-	-webkit-transform: scale(1.2);
-	-moz-transform: scale(1.2);
-	transform: scale(1.2);
+.tweetForm {
+	display: block;
+	margin: 30px auto;
+	width: 50%;
+}
+.tweetForm .myTweet {
+	width: 80%;
+	height: 30px;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	text-align: center;
+	font: 20px italic serif;
+}
+.tweetForm .sendTweet {
+	margin:0;
+}
+.refreshButton {
+	display: block;
+	margin: 30px auto 10px auto;
+	width: 30%;
 }
 .tweets {
-	margin: 20px;
+	display: block;
+	width: 80%;
+	margin: 5px auto;
 }
 .tweets .tweet-avatar {
 	width: 20%px;
@@ -119,8 +153,17 @@ header {
 	border-radius: 16px;
 	margin: 10px 10px;
 	height: auto;
-	width: 60%;
+	width: 100%;
 	display: none;
+	-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+	-moz-transition: -moz-transform: 0.5s, opacity 0.5s;
+	transition: transform 0.5s, opacity 0.5s;
+}
+.tweets .tweet-main:hover {
+	-webkit-transform: scale(1.05);
+	-moz-transform: scale(1.05);
+	transform: scale(1.05);
+	opacity: .9;
 }
 /* mainFooter */
 .mainFooter {
