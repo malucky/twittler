@@ -21,6 +21,7 @@ $(document).ready(function(){
 		// timestamp
 		var $tweetTime = $('<p class="tweet-time"></p>');
 		$tweetTime.text(getFriendlyTime(tweet.created_at));
+		$tweetTime.data('time', tweet.created_at);
 		// user avatar
 		var $tweetAvatar = $('<img class="tweet-avatar"/>');
 		$tweetAvatar.attr('src', 'iem_1.png');											/*****need to implement**/
@@ -76,6 +77,13 @@ $(document).ready(function(){
 			return 'more than a day ago';
 		}
 	};
+	var updateFriendlyTime = function() {
+		var $timeNodes = $('.tweet-time');
+		for (var i = 0; i < $timeNodes.length; i++) {
+			var $timeNode = $($timeNodes[i]);
+			$timeNode.text(getFriendlyTime($timeNode.data('time')));
+		}
+	};
 
 	/* refresh tweets */
 	var refreshTweets = function(){
@@ -94,7 +102,7 @@ $(document).ready(function(){
 			var i = numOfTweets-newTweetsNum - 1;
 			var $tweetNode;
 			while (i < numOfTweets) {
-				$tweetNode = tweetHTML(getATweet('home', i));
+				$tweetNode = tweetHTML(getATweet('home', i)); 
 				$tweetNode.prependTo('.tweets');
 				$tweetNode.css('display','none');
 				$tweetNode.slideDown(800);
@@ -188,6 +196,8 @@ $(document).ready(function(){
 	});
 };
 
+
+
 	/* add user information */
 	window.setTimeout(function(){
 		var myName = window.prompt("What's your name?");
@@ -202,4 +212,5 @@ $(document).ready(function(){
 	refreshTweets();
 	sendTweet();
 	userSpecificTweet();
+	window.setInterval(updateFriendlyTime, 10000);
 });
