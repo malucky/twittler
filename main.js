@@ -82,14 +82,19 @@ $(document).ready(function(){
 		$refreshButton = $('.refreshButton');
 		$refreshButton.on('click', 'button', function(){
 			var numOfTweets = streams.home.length;
-			if (numOfTweets - prevTweetNum > howManyTweets) {
-				$('<button class="moreButton" type="button">More!</button>').prependTo('.tweets');
+			var tweetsLeft = numOfTweets - prevTweetNum;
+			if (tweetsLeft > howManyTweets) { //more tweets than will display
+				var $moreButton = $('<button class="moreButton" type="button">More!</button>');
+				$moreButton.data('endIndex', numOfTweets - howManyTweets - 1);
+				$moreButton.data('startIndex', prevTweetNum - 1);
+				$moreButton.prependTo('.tweets');
+				window.setTimeout(moreTweets, 1000);
 			}
 			var newTweetsNum = Math.min(numOfTweets-prevTweetNum, howManyTweets);
 			var i = numOfTweets-newTweetsNum - 1;
 			var $tweetNode;
 			while (i < numOfTweets) {
-				$tweetNode = tweetHTML(getATweet('home', i))
+				$tweetNode = tweetHTML(getATweet('home', i));
 				$tweetNode.prependTo('.tweets');
 				$tweetNode.css('display','none');
 				$tweetNode.slideDown(800);
@@ -99,6 +104,36 @@ $(document).ready(function(){
 			userSpecificTweet();
 		});
 	};
+	var moreTweets = function(){
+		var $moreButton = $('.tweets').find('button');
+		$moreButton.on('click', function(){
+			var $thisButton = $(this);
+			var endIndex = $(this).data('endIndex') - 1;
+			var startIndex = $(this).data('startIndex') - 1;
+			if (endIndex - startIndex > howManyTweets){
+				var i = endIndex - howManyTweets;
+				var $newMoreButton = $('<button class="moreButton" type="button">More!</button>');
+				$newMoreButton.data('endIndex', i);
+				$newMoreButton.data('startIndex', startIndex + 1);
+				$newMoreButton.insertAfter($thisButton);
+			} else {
+				var i = startIndex;
+			}
+			var $tweetNode;
+			while (i <= endIndex) {
+				console.log(i);
+				$tweetNode = tweetHTML(getATweet('home', i));
+				$tweetNode.insertAfter($thisButton);
+				$tweetNode.css('display','none');
+				$tweetNode.slideDown(800);
+				i++;
+			}
+			$thisButton.remove();
+			userSpecificTweet();
+			moreTweets();
+		});
+	}
+
 	var sendTweet = function(){
 	  $('.tweetForm').on('click', 'button', function(){
 			var myTweetMessage = $('.myTweet').val();
@@ -112,6 +147,11 @@ $(document).ready(function(){
 	  	}
 	  });
 	};
+	$(".myTweet").keyup(function(event){
+    if(event.keyCode == 13){
+        $(".sendTweet").click();
+    }
+	});
 	var singleTweetHTML = function(tweet){
 		var $tweetNode = $('<div class="tweet-single"></div>'); //parent node
 		var $timeNode = $('<p class="tweet-single-time"></p>');
@@ -141,14 +181,12 @@ $(document).ready(function(){
 		}
 		} else {
 			var $singleTweets = $parentNode.find('.tweet-single');
-			$singleTweets.slideToggle()
+			$singleTweets.slideToggle();
 			window.setTimeout(function(){$singleTweets.remove()}, 400);
 			$parentNode.attr('data-click', 'false');
 		}		
 	});
 };
-
-	/* display user-specific tweets */
 
 	/* add user information */
 	window.setTimeout(function(){
@@ -159,7 +197,7 @@ $(document).ready(function(){
 		streams.users[visitor] = [];
 	},200);
 
-	/* enter tweets */
+	/* main */
 	displayTweets(howManyTweets, 'home', '.tweets');
 	refreshTweets();
 	sendTweet();

@@ -134,7 +134,10 @@ header {
 }
 .tweets .tweet-user {
 	float: left;
-	font: 26px bold;
+	font-size: 26px;
+	font-style: italic;
+	font-family: sans-serif;
+	color: #638AA8;
 	margin: 5px 10px 5px 10px;
 }
 .tweets .tweet-time {
